@@ -6,4 +6,3 @@ bs4
 requests
 streamlit_option_menu
 nltk
-nltk.download('wordnet')
