@@ -3,9 +3,6 @@ from textblob import TextBlob
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize, sent_tokenize
 import re
 import os
 
