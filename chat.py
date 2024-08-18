@@ -6,8 +6,8 @@ from urllib.parse import urlparse
 import re
 import os
 import nltk
-
 nltk.download('wordnet')
+from nltk.corpus import wordnet
 
 def analyze_sentiment(text):
     # Create a TextBlob object
