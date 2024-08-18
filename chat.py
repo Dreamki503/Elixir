@@ -5,6 +5,9 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import re
 import os
+import nltk
+
+nltk.download('wordnet')
 
 def analyze_sentiment(text):
     # Create a TextBlob object
