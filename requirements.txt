@@ -1,6 +1,6 @@
 streamlit
 audio_recorder_streamlit
-speech_recognition
+SpeechRecognition
 textblob
 urllib
 bs4
