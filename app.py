@@ -3,7 +3,7 @@ from streamlit_option_menu import option_menu
 import chat, audio
 
 # Set the page configuration first
-st.set_page_config(page_title='Sentiment', initial_sidebar_state="collapsed")
+st.set_page_config(page_title='Sentiment')
 
 class MultiApp:
     def __init__(self):
