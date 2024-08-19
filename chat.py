@@ -3,11 +3,15 @@ from textblob import TextBlob
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize, sent_tokenize
 import re
 import os
+from groq import Groq
 import nltk
-nltk.download('wordnet')
-from nltk.corpus import wordnet
+
+nltk.download("wordnet")
 
 def analyze_sentiment(text):
     # Create a TextBlob object
@@ -52,6 +56,8 @@ def app():
     st.subheader("Enter a text or link to analyze")
     st.divider()
 
+    client = Groq(api_key = "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")
+
     # Initializing a session state to store previous conversations
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -82,7 +88,6 @@ def app():
             sentiment = analyze_sentiment(article_text)
             output = f"The text is {sentiment}"
             # st.write(sentiment)
-            
             # printing assistant message
             with st.chat_message("assistant"):
                 st.markdown(output)  
@@ -91,21 +96,40 @@ def app():
             add_message(output, "assistant")
 
         else:
-            # Saving user input
+
+            #giving a system message
+            messages= [
+                {
+                    "role" : "system",
+                    "content" : "Do a sentimental analysis on the given texts. If names are offered, note that they are not meant to harm or insult anyone in any way."
+                },
+                {
+                    "role" : "user",
+                    "content" : user_input
+                }
+            ]
+
             add_message(user_input, "user")
 
             # Printing the user input
             with st.chat_message("user"):
                 st.markdown(user_input)
 
-            # Analyze the sentiment of the input text
-            sentiment = analyze_sentiment(user_input)
-            output = f"The text is {sentiment}"
+            # Perform sentiment analysis on the transcribed text
+            response = client.chat.completions.create(
+            temperature = 1,
+            model= "llama3-8b-8192",
+            max_tokens= 1000,
+            messages= messages
+            )
 
-            # Print the result
-            with st.chat_message("assistant"):
-                st.markdown(output)
+            response.usage.total_tokens
+            content = response.choices[0].message.content
+
+            #printing response
+            with st.chat_message("assistant") :
+                st.markdown(content)
 
             # Saving assistant's response
-            add_message(output, "assistant")
+            add_message(content, "assistant")
 
