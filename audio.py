@@ -57,18 +57,39 @@ def app():
             text = speech_to_text(audio_bytes)
             
             if text:
-                # Display the transcribed text
-                with st.chat_message("user") :
-                    st.markdown(text)
+                if text == "Sorry, I could not understand the audio." :
+                    with st.chat_message("assistant"):
+                        st.markdown(text + " Please try again.")
                 
-                # Perform sentiment analysis on the transcribed text
-                sentiment = analyze_sentiment(text)
-                
-                # Display the sentiment result
-                with st.chat_message("assistant") :
-                # st.write("Sentiment Analysis Result:")
-                    st.markdown(f"The sentiment of the audio is: **{sentiment}**")
-            else:
-                with st.chat_message("system") :
-                    st.markdown("Sorry, could not transcribe the audio.")
+                else:
+                    #giving a system message
+                    messages= [
+                        {
+                            "role" : "system",
+                            "content" : "Do a sentimental analysis on the given texts. If names are offered, note that they are not meant to harm anyone. "
+                        },
+                        {
+                            "role" : "user",
+                            "content" : text
+                        }
+                    ]
 
+                    # Display the transcribed text
+                    with st.chat_message("user") :
+                        st.markdown(text)
+                    
+                    client = Groq(api_key = "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")
+                    # Perform sentiment analysis on the transcribed text
+                    response = client.chat.completions.create(
+                    temperature = 1,
+                    model= "llama3-8b-8192",
+                    max_tokens= 1000,
+                    messages= messages
+                    )
+
+                    response.usage.total_tokens
+                    content = response.choices[0].message.content
+
+                    #printing response
+                    with st.chat_message("assistant") :
+                        st.markdown(content)
