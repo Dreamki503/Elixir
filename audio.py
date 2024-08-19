@@ -4,6 +4,7 @@ from audio_recorder_streamlit import audio_recorder
 import speech_recognition as sr
 from textblob import TextBlob
 import nltk
+from groq import Groq
 
 nltk.download("wordnet")
 
