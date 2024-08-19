@@ -7,3 +7,4 @@ requests
 streamlit_option_menu
 nltk
 streamlit_float
+groq
