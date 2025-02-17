@@ -7,3 +7,5 @@ It has 2 input modes : Speech and text.
 Elixir allows users to talk to it and does a sentimental analysis on whatever audio it recieves. It also does the same for the text. Text can be typed directly or any website link can be given to it.
 
 This was a small project I did to get started and dive into LLM's further.
+If you feel like checking out this bot clink the link below.
+https://elixir.streamlit.app
